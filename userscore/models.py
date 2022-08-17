@@ -12,3 +12,12 @@ class User(models.Model):
         return self.name
 
 
+class Levels(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    level_score = models.FloatField(default=0)
+    level_id = models.CharField(max_length=10, default="")
+
+    def __str__(self):
+        return self.user.name
+
+

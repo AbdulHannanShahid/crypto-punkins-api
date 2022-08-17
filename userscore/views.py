@@ -1,6 +1,6 @@
-from .models import User
+from .models import User, Levels
 from rest_framework.response import Response
-from .serializers import UserSerializer
+from .serializers import UserSerializer, LevelSerializer
 from rest_framework.decorators import api_view
 
 
@@ -13,8 +13,17 @@ def users(request):
     """
     try:
         username = request.data.get('username', None)
-
-        if username:
+        level = request.data.get('level', None)
+        if username and level:
+            level = Levels.objects.filter(level_id=level).order_by('-level_score')
+            if level:
+                serializer = LevelSerializer(level, many=True)
+                return Response(serializer.data)
+            else:
+                user = User.objects.all().order_by('-score')
+                serializer = UserSerializer(user, many=True)
+                return Response(serializer.data)
+        elif username:
             user_data = User.objects.all().order_by('-score')
             rank = 1
             user = User.objects.filter(name=username).first()
@@ -85,19 +94,32 @@ def update_user(request):
 
         score = request.data.get('score', None)
 
+        level = request.data.get('level', None)
+
         new_score = float(score)
 
         user = User.objects.filter(name=username).first()
         if user:
+            level_table = Levels.objects.filter(
+                user=user,
+                level_id=level,
+            ).first()
+            if level_table:
+                old_score = float(level_table.level_score)
+                if new_score > old_score:
+                    level_table.level_score = new_score
+                    user.score += new_score
+                level_table.save()
+                user.games_played += 1
+                user.save()
+            else:
+                level_table = Levels(user=user, level_score=new_score, level_id=level)
+                user.score += new_score
+                user.games_played += 1
+                user.save()
+                level_table.save()
 
-            old_score = float(user.score)
-            if new_score > old_score:
-                user.score = new_score
-
-            user.games_played += 1
-            user.save()
-
-            saveserializer = UserSerializer(user)
+            saveserializer = LevelSerializer(level_table)
 
             # if serializer.is_valid():
             #     serializer.save()
