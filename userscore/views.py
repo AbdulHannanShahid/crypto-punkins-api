@@ -131,5 +131,5 @@ def update_user(request):
 
     except Exception as e:
         return Response("Something Went Wrong")
-
+        print("abc")
     return Response("Something Went Wrong")
