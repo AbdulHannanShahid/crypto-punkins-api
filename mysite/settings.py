@@ -89,16 +89,16 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-# DATABASES={ }
-# DATABASES['default'] = dj_database_url.config(
-#     default='postgres://gyfsgnguofbewx:58a0df6e93092d3ee33dd10d92242c8b7d0cd3b4bd693af1dc4d1d9ce1bf24ce@ec2-44-210-36-247.compute-1.amazonaws.com:5432/dbb0p3lv0pekh5')
+DATABASES={ }
+DATABASES['default'] = dj_database_url.config(
+    default='postgres://lubyycscejffjr:11ac1cb9ed54682ed5b3d5ba0ddf2b1812d86cf3eddec55ebb7e5826f9662417@ec2-3-217-251-77.compute-1.amazonaws.com:5432/dlh3050iper3v')
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
