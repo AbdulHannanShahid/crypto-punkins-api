@@ -48,6 +48,7 @@ def users(request):
             user = User.objects.all().order_by('-score')
             serializer = UserSerializer(user, many=True)
             return Response(serializer.data)
+
     except:
         return Response("Something went wrong")
 
